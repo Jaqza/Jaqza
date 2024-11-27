@@ -6,26 +6,22 @@ from ball import Ball
 from scoreboards import Scoreboard
 
 
-def ball_reset():
-    ball.teleport(0, 0)
-    screen.update()
-    time.sleep(1)
-    ball.bounce_x()
+def speed_up(starting_speed):
+    starting_speed *= 0.9
+    return starting_speed
 # Screen settings
 
 
 screen = Screen()
-
-
 screen.listen()
 screen.setup(width=600, height=600)
 screen.bgcolor("gray")
 screen.tracer(0)
 # Objects
+ball = Ball()
 right_board = PlayerPlank((280, 0))
 left_board = PlayerPlank((-280, 0))
 net = Net()
-ball = Ball()
 scoreboard = Scoreboard()
 # Commands
 screen.onkey(left_board.move_up, "w")
@@ -34,20 +30,24 @@ screen.onkey(right_board.move_up, "Up")
 screen.onkey(right_board.move_down, "Down")
 # Logic
 is_game_on = True
+
 while is_game_on:
-    screen.update()
-    time.sleep(0.04)
+
     ball.move()
+    screen.update()
+    time.sleep(ball.velocity)
     if ball.ycor() < -280 or ball.ycor() > 280:
         ball.bounce_y()
-    if ball.distance(left_board) < 50 and ball.xcor() == -270:
+    if ball.distance(left_board) < 65 and ball.xcor() == -280:
         ball.bounce_x()
-    if ball.distance(right_board) < 50 and ball.xcor() == 270:
+        ball.velocity_up()
+    if ball.distance(right_board) < 65 and ball.xcor() == 280:
         ball.bounce_x()
+        ball.velocity_up()
     if ball.xcor() > 310:
-        ball_reset()
         scoreboard.left_add_point()
+        ball.ball_restart()
     if ball.xcor() < -310:
-        ball_reset()
         scoreboard.right_add_point()
+        ball.ball_restart()
 screen.exitonclick()

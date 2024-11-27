@@ -1,9 +1,9 @@
 from turtle import Turtle
 
-class PlayerBoard(Turtle):
+
+class PlayerPlank(Turtle):
     def __init__(self, position):
         super().__init__()
-
         self.shape("square")
         self.color("white")
         self.shapesize(stretch_wid=5, stretch_len=1)
@@ -19,4 +19,3 @@ class PlayerBoard(Turtle):
         x_cord = self.xcor()
         y_cord = self.ycor()
         self.goto((x_cord, y_cord - 20))
-

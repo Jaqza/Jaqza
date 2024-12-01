@@ -1,5 +1,5 @@
 from turtle import Turtle
-import random
+from random import choice
 
 
 class Ball(Turtle):
@@ -9,8 +9,19 @@ class Ball(Turtle):
         self.shape("circle")
         self.color("white")
         self.penup()
-        self.x_move = random.randint(-10, 10)
-        self.y_move = random.randint(-10, 10)
+        self.randoms = [-6, -5, -4, -3, 3, 4, 5, 6]
+        self.x_move = choice(self.randoms)
+        self.y_move = choice(self.randoms)
+        self.velocity = 0.06
+
+    def velocity_up(self):
+        self.velocity *= 0.8
+        return self.velocity
+
+    def ball_restart(self):
+        self.teleport(0, 0)
+        self.velocity = 0.06
+        self.bounce_x()
 
     def move(self):
         new_x = self.xcor() + self.x_move
